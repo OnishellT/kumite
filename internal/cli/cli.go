@@ -10,7 +10,7 @@ import (
 	"kumite/internal/setup"
 )
 
-const version = "0.1.0"
+const version = "0.1.1"
 
 func Run(args []string) int {
 	return run(args, os.Stdout, os.Stderr)
