@@ -1,4 +1,11 @@
 .cache/
 graph.svg
 dist/
+build/
+bin/
+coverage.out
+coverage/
 *.tgz
+*.test
+*.log
+.DS_Store

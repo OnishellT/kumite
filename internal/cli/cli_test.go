@@ -20,6 +20,7 @@ func TestRunSetupDryRun(t *testing.T) {
 	output := stdout.String()
 	for _, want := range []string{
 		"==> pi extensions",
+		"pi install npm:pi-kumite",
 		"pi install npm:pi-subagents",
 		"pi install npm:pi-mcp-adapter",
 		"npm install -g context-mode",
@@ -57,6 +58,7 @@ func TestRunSetupGlobalDryRunSkipsProjectArtifacts(t *testing.T) {
 	output := stdout.String()
 	for _, want := range []string{
 		"==> pi extensions",
+		"pi install npm:pi-kumite",
 		"pi install npm:pi-subagents",
 		"==> go static-analysis tooling",
 		"go install golang.org/x/tools/cmd/deadcode@latest",

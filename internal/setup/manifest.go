@@ -28,6 +28,7 @@ func defaultLanguages() []string {
 
 func piExtensionInstallCommands() []command {
 	return []command{
+		{Name: "pi", Args: []string{"install", "npm:pi-kumite"}, Env: npmQuietEnv(), Note: "Installs the Kumite Pi extension that provides Kumite commands, tools, prompts, and project initialization."},
 		{Name: "pi", Args: []string{"install", "npm:pi-subagents"}, Env: npmQuietEnv(), Note: "Installs the subagent runtime used by the kumite delegation chain."},
 		{Name: "pi", Args: []string{"install", "npm:pi-intercom"}, Env: npmQuietEnv(), Note: "Enables parent/child session coordination for subagent results and attention signals."},
 		{Name: "pi", Args: []string{"install", "npm:pi-mcp-adapter"}, Env: npmQuietEnv(), Note: "Adds the MCP gateway used by Memo and other project-local MCP servers."},

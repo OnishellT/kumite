@@ -44,11 +44,13 @@ The installer requires `go` on `PATH`. When it is not run from a checkout, it al
 
 ## Daily Use
 
-Install global Pi extensions and static-analysis tooling:
+Install global Pi extensions, including `pi-kumite`, and static-analysis tooling:
 
 ```sh
 kumite setup --global --keep-going
 ```
+
+Kumite needs the Pi project extension `pi-kumite`. `kumite setup --global` installs it with Pi, and project initialization registers it in `.pi/settings.json` as `npm:pi-kumite` so Pi loads the Kumite orchestration extension for future sessions in that project.
 
 Initialize a project with kumite Pi agents, skills, chain, MCP config, `agents.md` index, and memory docs:
 
@@ -57,7 +59,7 @@ cd /path/to/project
 kumite init
 ```
 
-`kumite init` also upserts `.pi/settings.json` with `npm:pi-kumite` so Pi loads the Kumite extension in future sessions. For local extension development, use `kumite init --pi-package /path/to/pi-kumite`.
+For local extension development, use `kumite init --pi-package /path/to/pi-kumite` to register a local checkout instead of `npm:pi-kumite`.
 
 `kumite init` upserts `agents.md`, the curated agent entry point and index for project memory. It links to deeper memory files instead of duplicating them.
 
@@ -73,7 +75,7 @@ kumite setup --keep-going
 - `staging`: release-candidate branch. Pull requests into this branch run code quality and tests, but not release builds.
 - `main`: release branch. Pull requests into this branch run code quality, tests, and build checks. Merges to `main` create a GitHub release from `VERSION`.
 
-All protected branches require an approving review from `@OnishellT`. See [Branching And Releases](docs/branching-and-releases.md).
+Protected branches require pull requests and passing checks before merge. See [Branching And Releases](docs/branching-and-releases.md).
 
 ## Development Checks
 
