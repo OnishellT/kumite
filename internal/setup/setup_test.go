@@ -465,7 +465,7 @@ func TestWritePiSettingsExplicitLocalPackageReplacesNPM(t *testing.T) {
 	var stdout bytes.Buffer
 	if err := writePiSettings(Options{
 		PiSettingsPath: settingsPath,
-		PiPackage:      "/home/dev/projects/pi-kumite",
+		PiPackage:      "/opt/kumite/pi-kumite",
 		Stdout:         &stdout,
 	}); err != nil {
 		t.Fatalf("writePiSettings() error = %v", err)
@@ -476,7 +476,7 @@ func TestWritePiSettingsExplicitLocalPackageReplacesNPM(t *testing.T) {
 		t.Fatalf("read settings: %v", err)
 	}
 	text := string(content)
-	if !strings.Contains(text, `"/home/dev/projects/pi-kumite"`) {
+	if !strings.Contains(text, `"/opt/kumite/pi-kumite"`) {
 		t.Fatalf("explicit local package should replace npm package:\n%s", text)
 	}
 	if strings.Contains(text, `"npm:pi-kumite"`) {
