@@ -44,13 +44,13 @@ The installer requires `go` on `PATH`. When it is not run from a checkout, it al
 
 ## Daily Use
 
-Install global Pi extensions and static-analysis tooling:
+Install global Pi extensions, including `pi-kumite`, and static-analysis tooling:
 
 ```sh
 kumite setup --global --keep-going
 ```
 
-Kumite also needs the Pi project extension `pi-kumite`. Project initialization registers it in `.pi/settings.json` as `npm:pi-kumite`, so Pi loads the Kumite orchestration extension for future sessions in that project.
+Kumite needs the Pi project extension `pi-kumite`. `kumite setup --global` installs it with Pi, and project initialization registers it in `.pi/settings.json` as `npm:pi-kumite` so Pi loads the Kumite orchestration extension for future sessions in that project.
 
 Initialize a project with kumite Pi agents, skills, chain, MCP config, `agents.md` index, and memory docs:
 
