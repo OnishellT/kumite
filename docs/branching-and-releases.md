@@ -9,13 +9,10 @@ Kumite uses three protected branches:
 All protected branches require:
 
 - pull requests before merge;
-- one approving review;
-- code owner review by `@OnishellT`;
-- stale review dismissal after new commits;
 - passing required status checks;
 - resolved conversations.
 
-Copilot automatic code review is configured with a repository ruleset when the GitHub account has Copilot code review enabled.
+They do not require a separate approving reviewer, so the repository owner can merge maintenance PRs after checks pass. Copilot automatic code review is not part of the default review process.
 
 ## Release Process
 
