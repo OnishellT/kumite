@@ -1,0 +1,34 @@
+---
+name: static-analysis-reviewer
+description: Use when reviewing Go, Python, Rust, JavaScript, or TypeScript code changes for quality signals with kumite-installed static-analysis tools.
+---
+
+# Static Analysis Reviewer
+
+Use this skill when reviewing code changes in Go, Python, Rust, JavaScript, or TypeScript repositories for quality signals: dead code, unused dependencies, unused exports/files, cycles, architecture boundaries, duplication, complexity, and maintainability.
+
+## Review stance
+
+- Prefer language-native static analysis over general style linting.
+- Run read-only checks first. Only use autofix commands when the user explicitly asks for cleanup.
+- Treat analyzer output as evidence, not as an automatic deletion plan. Dead-code and unused-export tools can produce false positives around dynamic loading, reflection, macros, generated code, plugin entrypoints, public APIs, and cross-platform build tags.
+- Report findings with file paths, tool names, and the exact command that produced the evidence.
+- Git-dependent checks should run in normal project Git worktrees. In a scratch project without `.git`, record those checks as skipped with `SKIPPED: no git worktree`, run the remaining language checks, and do not fail the review solely because Git metadata is absent.
+
+{{ range .Sections }}
+## {{ .Title }}
+
+{{ .Intro }}
+
+```bash
+{{ commandBlock .Commands }}
+```
+
+{{ if .StructuredCommands }}{{ .StructuredIntro }}
+
+```bash
+{{ commandBlock .StructuredCommands }}
+```
+
+{{ end }}{{ .Guidance }}
+{{ end }}

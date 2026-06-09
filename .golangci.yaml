@@ -1,0 +1,39 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  default: none
+  enable:
+    - unused
+    - dupl
+    - cyclop
+    - gocognit
+    - gocyclo
+    - maintidx
+    - depguard
+    - gomodguard_v2
+    - staticcheck
+  settings:
+    cyclop:
+      max-complexity: 10
+      package-average: 10
+    depguard:
+      rules:
+        main:
+          list-mode: strict
+          files:
+            - "$all"
+          allow:
+            - "$gostd"
+            - "charm.land/bubbletea/v2"
+            - "kumite/internal"
+    gocognit:
+      min-complexity: 15
+    gocyclo:
+      min-complexity: 15
+    gomodguard_v2:
+      local-replace-directives: true
+    maintidx:
+      under: 20

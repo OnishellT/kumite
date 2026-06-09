@@ -1,0 +1,20 @@
+{
+  "settings": {
+    "toolPrefix": "none"
+  },
+  "mcpServers": {
+    "context-mode": {
+      "command": "context-mode",
+      "directTools": true,
+      "lifecycle": "keep-alive"
+    },
+    "memo": {
+      "command": "memo",
+      "args": [
+        "mcp"
+      ],
+      "directTools": true,
+      "lifecycle": "keep-alive"
+    }
+  }
+}

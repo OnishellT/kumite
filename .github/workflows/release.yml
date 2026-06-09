@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Resolve release version
+        id: version
+        run: |
+          version="$(tr -d '[:space:]' < VERSION)"
+          if [ -z "$version" ]; then
+            echo "VERSION is empty" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+
+      - name: Stop if release tag already exists
+        run: |
+          if git rev-parse "${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
+            echo "Release tag ${{ steps.version.outputs.tag }} already exists. Bump VERSION before merging to main." >&2
+            exit 1
+          fi
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install Go static-analysis tools
+        run: make install-go-tools
+
+      - name: Run release quality gate
+        run: |
+          make format-check
+          make test
+          make static-analysis
+
+      - name: Build release binaries
+        run: |
+          mkdir -p dist
+          GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o dist/kumite-linux-amd64 ./cmd/kumite
+          GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o dist/kumite-linux-arm64 ./cmd/kumite
+          GOOS=darwin GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o dist/kumite-darwin-amd64 ./cmd/kumite
+          GOOS=darwin GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o dist/kumite-darwin-arm64 ./cmd/kumite
+          GOOS=windows GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o dist/kumite-windows-amd64.exe ./cmd/kumite
+          (cd dist && sha256sum * > checksums.txt)
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Kumite ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          generate_release_notes: true
+          files: dist/*
